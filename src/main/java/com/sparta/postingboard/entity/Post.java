@@ -17,9 +17,15 @@ public class Post {
     private String date;
 
     public Post(PostRequestDto requestDto) {
-        this.username=requestDto.getUsername();
-        this.contents=requestDto.getContents();
-        this.date=requestDto.getDate();
-        this.title=requestDto.getTitle();
+        this.username = requestDto.getUsername();
+        this.contents = requestDto.getContents();
+        this.title = requestDto.getTitle();
+        this.date = requestDto.getDate();
+    }
+
+    public void update(PostRequestDto requestDto) {
+        this.username = requestDto.getUsername();
+        this.contents = requestDto.getContents();
+        this.title = requestDto.getTitle();
     }
 }
