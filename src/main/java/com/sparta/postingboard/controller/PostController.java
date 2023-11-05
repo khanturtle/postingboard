@@ -17,7 +17,7 @@ public class PostController {
     public PostResponseDto createPost(@RequestBody PostRequestDto requestDto) {
         Post post = new Post(requestDto);
 
-        Long maxId = postList.size() > 0 ? Collections.max(postList.keySet()) + 1 : 1;
+        Long maxId = !postList.isEmpty() ? Collections.max(postList.keySet()) + 1 : 1;
         post.setId(maxId);
         //DB 저장
         postList.put(post.getId(), post);
@@ -25,22 +25,35 @@ public class PostController {
         return new PostResponseDto(post);
     }
 
-    //조회하기
+    //게시글 목록 조회하기
     @GetMapping("/posts")
     public List<PostResponseDto> getPosts() {
         return postList.values().stream()
                 .map(PostResponseDto::new).toList();
     }
 
+    //id로 게시글 조회
+    @GetMapping("/post/{id}")
+    public Post getPost(@PathVariable Long id) {
+        if (postList.containsKey(id)) {
+            return postList.get(id);
+        } else {
+            throw new IllegalArgumentException("선택한 게시글은 존재하지 않습니다.");
+        }
+    }
+
     //게시글 수정
     @PutMapping("/posts/{id}")
-    public Long updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto) {
+    public Post updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto) {
         //포스트 DB에 존재 하는지 확인
         if (postList.containsKey(id)) {
             Post post = postList.get(id);
             //게시글 수정 매서드
-            post.update(requestDto);
-            return post.getId();
+            if (post.getPassword().equals(requestDto.getPassword())) {
+                post.update(requestDto);
+                return post;
+            } else
+                throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
         } else {
             throw new IllegalArgumentException("선택한 게시글은 존재하지 않습니다.");
         }
@@ -48,9 +61,12 @@ public class PostController {
 
     //게시글 삭제
     @DeleteMapping("posts/{id}")
-    public Long deletePost(@PathVariable Long id) {
+    public Long deletePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto) {
         if (postList.containsKey(id)) {
-            postList.remove(id);
+            Post post = postList.get(id);
+            if (post.getPassword().equals(requestDto.getPassword())) {   //비밀번호 일치할 시
+                postList.remove(id);
+            } else throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
             return id;
         } else {
             throw new IllegalArgumentException("선택한 게시글은 존재하지 않습니다.");
