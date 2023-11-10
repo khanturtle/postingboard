@@ -17,6 +17,7 @@ public class Post {
     private String username;
     private String contents;
     private String date;
+    private boolean complete = false; //완료 여부
     //비밀번호 반환 하지 않게 처리
     @JsonIgnore
     private String password;
