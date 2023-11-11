@@ -91,7 +91,7 @@
 - [ ]  **🆕 예외 처리 (ResponseEntity 사용)**
     - **API 예외응답 예시 보기**
         
-        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/83c75a39-3aba-4ba4-a792-7aefe4b07895/d1f62f78-479b-488e-b19b-5ea0a71ad504/Untitled.png)
+        ![Untitled](https://teamsparta.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F83c75a39-3aba-4ba4-a792-7aefe4b07895%2Fd1f62f78-479b-488e-b19b-5ea0a71ad504%2FUntitled.png?table=block&id=385fc7ad-4dff-4238-9960-b362d0fe1535&spaceId=83c75a39-3aba-4ba4-a792-7aefe4b07895&width=2000&userId=&cache=v2)
         
     - 토큰이 필요한 API 요청에서 토큰을 전달하지 않았거나 정상 토큰이 아닐 때는 "토큰이 유효하지 않습니다." 라는 에러메시지와 statusCode: 400을 Client에 반환하기
     - 토큰이 있고, 유효한 토큰이지만 해당 사용자가 작성한 게시글/댓글이 아닌 경우에는 “작성자만 삭제/수정할 수 있습니다.”라는 에러메시지와 statusCode: 400을 Client에 반환하기
