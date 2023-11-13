@@ -9,12 +9,12 @@ import com.sparta.postingboard.entity.Post;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.*;
 
 @RestController
 @RequestMapping("/api")
 public class PostController {
-
     private final JdbcTemplate jdbctemplate;
     public PostController(JdbcTemplate jdbcTemplate){
         this.jdbctemplate=jdbcTemplate;
@@ -36,7 +36,19 @@ public class PostController {
         return new ClientResponseDto(client);
     }
     //로그인
-    @GetMapping("/clients/{username}")
+    @GetMapping("/login")
+    public String login(@RequestBody ClientRequestDto requestDto){
+        Client client = new Client(requestDto);
+        boolean flag = false;
+        for(Client client1:clientList){
+            if((client1.getUsername().equals(client.getUsername()))&&client1.getPassword().equals(client.getPassword())){
+                flag=true;
+            }
+        }
+        if(flag){
+            return client.getUsername(); //jwt토큰 반환으로 변경해야함
+        }else throw new IllegalArgumentException("Username이나 Password가 틀렸습니다.");
+    }
 
     //게시물 작성하기
     @PostMapping("/posts")
